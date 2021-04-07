@@ -1,7 +1,8 @@
 import axios from 'axios'
-import router from '@/router/index'
 import {getCookie} from "@/utils/cookieUtils";
-import { MessageBox, Message, notify } from 'element-ui'
+import {Message} from 'element-ui'
+import {getToken, setToken, removeToken} from '@/utils/auth'
+
 
 // 创建axios实例
 const service = axios.create({
@@ -15,8 +16,8 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(
   config => {
-    if (getCookie("token") != undefined) {
-        config.headers['authorization'] = getCookie("token") // 让每个请求携带自定义token 请根据实际情况自行修改
+    if (getToken() != undefined) {
+        config.headers['authorization'] = 'Bearer ' + getToken()
     }
     return config
   },

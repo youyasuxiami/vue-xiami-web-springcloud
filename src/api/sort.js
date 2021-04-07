@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 export function getSortTimes (params) {
   return request({
-    url: '/sort/getSortTimes',
+    url: '/front/sort/getSortTimes',
     method: 'get',
     params
   })
@@ -9,7 +9,7 @@ export function getSortTimes (params) {
 
 export function getArticleByMonth (params) {
   return request({
-    url: '/sort/getArticleByMonth',
+    url: '/front/sort/getArticleByMonth',
     method: 'get',
     params
   })

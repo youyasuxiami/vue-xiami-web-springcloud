@@ -112,7 +112,7 @@ export function localRegister(params) {
 
 export function getPublicKey() {
   return request({
-    url: '/getPublicKey',
+    url: '/front/getPublicKey',
     method: 'get',
   })
 }

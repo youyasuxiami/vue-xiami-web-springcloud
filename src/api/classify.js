@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 export function getBlogTypes (params) {
   return request({
-    url: '/classify/getBlogTypes',
+    url: '/front/classify/getBlogTypes',
     method: 'get',
     params
   })
@@ -9,7 +9,7 @@ export function getBlogTypes (params) {
 
 export function getArticleByBlogType (params) {
   return request({
-    url: '/classify/getArticleByBlogType',
+    url: '/front/classify/getArticleByBlogType',
     method: 'get',
     params
   })
