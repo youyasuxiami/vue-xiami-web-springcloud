@@ -31,4 +31,18 @@ export function getHotBlog (params) {
   })
 }
 
+/**
+ * 博客查询
+ * @param params
+ */
+export function queryBlog (params) {
+  return request({
+    url: '/front/query',
+    method: 'post',
+    params
+  })
+}
+
+
+
 

@@ -108,7 +108,7 @@
             <HotBlog></HotBlog>
 
             <!-- 友情链接-->
-<!--            <Link></Link>-->
+            <!--            <Link></Link>-->
             <!-- 右侧边栏  end-->
 
 
@@ -128,6 +128,8 @@
     import FourthRecommend from "../components/FourthRecommend";
     import HotBlog from "../components/HotBlog";
     // import Link from "../components/Link";
+    import {queryBlog} from '@/api/index'
+
 
 
     export default {
@@ -150,7 +152,7 @@
                 total: 0, //总数量
                 isEnd: false, //是否到底底部了
                 loadingInstance: null, // loading对象
-                secondList:[]
+                secondList: []
             }
         },
         mounted() {
@@ -162,8 +164,44 @@
             this.newBlogList();
             // 获得二级推荐（2个）
             this.getSecondRecommend()
+
+             console.log("***************************************************")
+            let keyword=this.$route.query.keyword;
+             console.log(keyword)
+            this.clickSearchIco(keyword)
         },
         methods: {
+            clickSearchIco: function (keyword) {
+                // this.showSearch = !this.showSearch;
+                //获取焦点
+                // this.$refs.searchInput.focus();
+                if (keyword) {
+                    queryBlog({
+                            keyword: keyword
+                        }
+                    ).then((data) => {
+                        console.log("99999")
+                        console.log(data)
+                        console.log(data);
+                        if (data.code == '20000') {
+                            this.$notify({
+                                title: '成功',
+                                message: data.message,
+                                type: 'success',
+                                duration: 2000,
+                            })
+                        } else {
+                            this.$notify({
+                                title: '失败',
+                                message: data.message,
+                                type: 'error',
+                                duration: 2000
+                            })
+                        }
+                    })
+                }
+            },
+
             //跳转到文章详情
             goToInfo(id) {
                 let routeData = this.$router.resolve({
@@ -217,7 +255,7 @@
                     that.loading = false;
                 });
             },
-            getSecondRecommend(){
+            getSecondRecommend() {
                 let params = new URLSearchParams();
                 params.append("level", 2);
                 getBlogByLevel(params).then(response => {

@@ -26,16 +26,17 @@
 
             <ul id="starlist" :style="showHead?'display: block':''">
                 <li>
-                    <router-link to="/">
+                    <!--                    <router-link to="/">-->
+                    <router-link :to="{path:'/',name:'/',query:{keyword:1}}">
                         <a href="javascript:void(0);" :class="[saveTitle == '/' ? 'title' : '']">首页</a>
                     </router-link>
                 </li>
 
-<!--                <li>-->
-<!--                    <router-link to="/about">-->
-<!--                        <a href="javascript:void(0);" :class="[saveTitle == '/about' ? 'title' : '']">关于我</a>-->
-<!--                    </router-link>-->
-<!--                </li>-->
+                <!--                <li>-->
+                <!--                    <router-link to="/about">-->
+                <!--                        <a href="javascript:void(0);" :class="[saveTitle == '/about' ? 'title' : '']">关于我</a>-->
+                <!--                    </router-link>-->
+                <!--                </li>-->
 
                 <li>
                     <router-link to="/sort">
@@ -61,6 +62,7 @@
                     </router-link>
                 </li>
 
+<!--                搜索-->
                 <div class="searchbox">
                     <div id="search_bar"
                          :class="(showSearch || keyword.length > 0)?'search_bar search_open':'search_bar'">
@@ -71,10 +73,11 @@
                                 type="text"
                                 name="keyboard"
                                 v-model="keyword"
+                                autocomplete="off"
                         >
-<!--                                v-on:keyup.enter="search"-->
-<!--                        <p class="search_ico" @click="clickSearchIco">-->
-                        <p class="search_ico" @click="clickSearchIco">
+                        <!--                                v-on:keyup.enter="search"-->
+                        <!--                        <p class="search_ico" @click="clickSearchIco">-->
+                        <p class="search_ico" @click="search">
                             <span></span>
                         </p>
                     </div>
@@ -138,7 +141,7 @@
         getFeedbackList,
         addFeedback,
         getInfo,
-      logout
+        logout
 
     } from "../api/user";
     import {getCommentListByUser, getPraiseListByUser} from "../api/comment";
@@ -146,7 +149,7 @@
     // import {getListByDictTypeList} from "@/api/sysDictData"
     // vuex中有mapState方法，相当于我们能够使用它的getset方法
     import {mapMutations} from 'vuex';
-    import {SET_USER_INFO,SET_LOGIN_STATE} from "@/store/mutation-types";
+    import {SET_USER_INFO, SET_LOGIN_STATE} from "@/store/mutation-types";
     // import {timeAgo} from "../utils/webUtils";
 
     export default {
@@ -187,7 +190,7 @@
         },
         methods: {
             // ...mapMutations(['setUserInfo', 'setLoginState']),
-            ...mapMutations({SET_USER_INFO,SET_LOGIN_STATE}),
+            ...mapMutations({SET_USER_INFO, SET_LOGIN_STATE}),
 
             openHead: function () {
                 this.showHead = !this.showHead;
@@ -202,16 +205,35 @@
                     });
                     return;
                 }
-                this.$router.push({path: "/list", query: {keyword: this.keyword}});
+                this.$router.push({path: "/", query: {keyword: this.keyword}});
             },
-            clickSearchIco: function () {
-                // if (this.keyword != "") {
-                //     this.search();
-                // }
-                this.showSearch = !this.showSearch;
-                //获取焦点
-                this.$refs.searchInput.focus();
-            },
+            // clickSearchIco: function () {
+            //     this.showSearch = !this.showSearch;
+            //     //获取焦点
+            //     this.$refs.searchInput.focus();
+            //     if (this.keyword) {
+            //         queryBlog({
+            //                 keyword: this.keyword
+            //             }
+            //         ).then((data) => {
+            //             if (data.code == '20000') {
+            //                 this.$notify({
+            //                     title: '成功',
+            //                     message: data.message,
+            //                     type: 'success',
+            //                     duration: 2000,
+            //                 })
+            //             } else {
+            //                 this.$notify({
+            //                     title: '失败',
+            //                     message: data.message,
+            //                     type: 'error',
+            //                     duration: 2000
+            //                 })
+            //             }
+            //         })
+            //     }
+            // },
             handleCommand(command) {
                 switch (command) {
                     case "logout" : {
@@ -302,14 +324,14 @@
              * @returns {{}}
              */
             getUrlVars: function () {
-              var vars = {};
-              var parts = window.location.href.replace(
-                      /[?&]+([^=&]+)=([^&#]*)/gi,
-                      function (m, key, value) {
+                var vars = {};
+                var parts = window.location.href.replace(
+                    /[?&]+([^=&]+)=([^&#]*)/gi,
+                    function (m, key, value) {
                         vars[key] = value;
-                      }
-              );
-              return vars;
+                    }
+                );
+                return vars;
             },
 
             getToken: function () {
