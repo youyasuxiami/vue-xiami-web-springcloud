@@ -161,7 +161,7 @@
                 },
                 showHead: false, //控制导航栏的弹出
                 saveTitle: "",
-                showSearch: false, // 控制搜索框的弹出
+                showSearch: true, // 控制搜索框的弹出
                 keyword: "",
                 isLogin: false,
                 userInfo: {
@@ -196,6 +196,7 @@
                 this.showHead = !this.showHead;
             },
             search: function () {
+                alert(this.keyword)
                 if (this.keyword == "" || this.keyword.trim() == "") {
                     this.$notify.error({
                         title: '错误',
